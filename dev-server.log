@@ -1,0 +1,27 @@
+
+> food-delivery@1.0.0 dev
+> concurrently "npm run dev --prefix server" "npm run dev --prefix client"
+
+[1] 
+[1] > food-delivery-client@1.0.0 dev
+[1] > vite --host 0.0.0.0
+[1] 
+[0] 
+[0] > food-delivery-server@1.0.0 dev
+[0] > nodemon src/index.js
+[0] 
+[0] [33m[nodemon] 3.1.14[39m
+[0] [33m[nodemon] to restart at any time, enter `rs`[39m
+[0] [33m[nodemon] watching path(s): *.*[39m
+[0] [33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[0] [32m[nodemon] starting `node src/index.js`[39m
+[1] 
+[1]   [32m[1mVITE[22m v6.4.2[39m  [2mready in [0m[1m1998[22m[2m[0m ms[22m
+[1] 
+[1]   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+[1]   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.57.231:[1m5173[22m/[39m
+[0] MongoDB connected
+[0] API running on http://localhost:5000
+[0] [0mGET /api/restaurants [32m200[0m 49.311 ms - 2794[0m
+[0] [31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[1] npm run dev --prefix client exited with code 4294967295

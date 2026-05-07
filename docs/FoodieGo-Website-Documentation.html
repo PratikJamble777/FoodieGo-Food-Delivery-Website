@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>FoodieGo Website Documentation</title>
+    <style>
+      @page {
+        margin: 18mm;
+      }
+
+      body {
+        margin: 0;
+        color: #202124;
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.55;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.2;
+        margin: 0 0 10px;
+      }
+
+      h1 {
+        color: #d9381e;
+        font-size: 34px;
+      }
+
+      h2 {
+        border-bottom: 2px solid #f1ede6;
+        font-size: 22px;
+        margin-top: 28px;
+        padding-bottom: 6px;
+      }
+
+      h3 {
+        font-size: 16px;
+        margin-top: 18px;
+      }
+
+      p {
+        margin: 0 0 10px;
+      }
+
+      ul,
+      ol {
+        margin: 8px 0 14px 22px;
+        padding: 0;
+      }
+
+      li {
+        margin: 5px 0;
+      }
+
+      code {
+        background: #f7f3ec;
+        border-radius: 4px;
+        font-family: Consolas, monospace;
+        padding: 2px 5px;
+      }
+
+      .cover {
+        background: #faf7f2;
+        border-radius: 8px;
+        margin-bottom: 26px;
+        padding: 26px;
+      }
+
+      .subtitle {
+        color: #555;
+        font-size: 15px;
+        max-width: 720px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .card {
+        border: 1px solid #eee4d8;
+        border-radius: 8px;
+        padding: 14px;
+      }
+
+      .flow {
+        background: #202124;
+        border-radius: 8px;
+        color: white;
+        font-family: Consolas, monospace;
+        padding: 16px;
+        white-space: pre-wrap;
+      }
+
+      .muted {
+        color: #666;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin-top: 10px;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid #eadfce;
+        padding: 9px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #faf7f2;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="cover">
+      <h1>FoodieGo Website Documentation</h1>
+      <p class="subtitle">
+        FoodieGo is a Zomato-style food delivery web application where users can browse restaurants,
+        view menus, create an account, add food to a cart, and place cash-on-delivery orders.
+      </p>
+      <p class="muted">Project type: MERN full-stack web application</p>
+    </section>
+
+    <h2>1. Website Overview</h2>
+    <p>
+      The website has a customer-facing ordering flow. Users can search restaurants by restaurant name,
+      cuisine, or location, including Pune locations such as Kothrud, Koregaon Park, and Hinjewadi.
+      A logged-in user can add menu items to the cart, enter delivery details, and place an order
+      without an online payment gateway.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>User Features</h3>
+        <ul>
+          <li>Signup and login using JWT authentication.</li>
+          <li>Browse restaurant cards with rating, location, and delivery time.</li>
+          <li>Search by location, cuisine, or restaurant name.</li>
+          <li>View menu items by restaurant and category.</li>
+          <li>Add, update, and remove cart items.</li>
+          <li>Place cash-on-delivery orders.</li>
+          <li>View order history and order status.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Admin/API Features</h3>
+        <ul>
+          <li>Admin-protected restaurant creation endpoint.</li>
+          <li>Admin-protected menu item creation endpoint.</li>
+          <li>Admin order listing endpoint.</li>
+          <li>Admin order status update endpoint.</li>
+          <li>Seed script for sample restaurants and menu data.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>2. How The Website Works</h2>
+    <div class="flow">User opens FoodieGo
+  -> Restaurant list loads from Express API
+  -> User searches by food, cuisine, or location
+  -> User opens a restaurant menu
+  -> User logs in or signs up
+  -> User adds menu items to cart
+  -> Cart is saved in MongoDB
+  -> User enters delivery address
+  -> User places COD order
+  -> Backend creates order and clears cart
+  -> User sees the order in My Orders</div>
+
+    <h3>Authentication Flow</h3>
+    <ol>
+      <li>User submits signup or login form from the React frontend.</li>
+      <li>Express validates the request.</li>
+      <li>Passwords are hashed using <code>bcryptjs</code>.</li>
+      <li>Successful login/register returns a JWT token.</li>
+      <li>The frontend stores the token in <code>localStorage</code>.</li>
+      <li>Protected requests send the token in the <code>Authorization</code> header.</li>
+    </ol>
+
+    <h3>Ordering Flow</h3>
+    <ol>
+      <li>User selects a restaurant and menu item.</li>
+      <li>The cart API checks that all cart items are from one restaurant.</li>
+      <li>The cart stores menu item IDs and quantities for the logged-in user.</li>
+      <li>At checkout, the order API calculates subtotal, delivery fee, and total.</li>
+      <li>The order is saved with <code>paymentMethod: COD</code> and <code>paymentStatus: pending</code>.</li>
+    </ol>
+
+    <h2>3. Tech Stack Used</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Technology</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Frontend</td>
+          <td>React + Vite</td>
+          <td>Builds the single-page web app and development server.</td>
+        </tr>
+        <tr>
+          <td>Styling</td>
+          <td>Tailwind CSS</td>
+          <td>Creates responsive layouts and reusable utility-based styles.</td>
+        </tr>
+        <tr>
+          <td>Routing</td>
+          <td>React Router</td>
+          <td>Handles frontend pages like home, auth, cart, and orders.</td>
+        </tr>
+        <tr>
+          <td>State</td>
+          <td>Zustand</td>
+          <td>Stores authentication and cart state on the frontend.</td>
+        </tr>
+        <tr>
+          <td>HTTP Client</td>
+          <td>Axios</td>
+          <td>Sends API requests from React to Express.</td>
+        </tr>
+        <tr>
+          <td>Backend</td>
+          <td>Node.js + Express</td>
+          <td>Provides REST APIs for auth, restaurants, carts, and orders.</td>
+        </tr>
+        <tr>
+          <td>Database</td>
+          <td>MongoDB + Mongoose</td>
+          <td>Stores users, restaurants, menu items, carts, and orders.</td>
+        </tr>
+        <tr>
+          <td>Authentication</td>
+          <td>JWT + bcryptjs</td>
+          <td>Protects private routes and securely stores passwords.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>4. Architecture</h2>
+    <div class="flow">React Frontend (client)
+  Pages: Home, Restaurant, Auth, Cart, Orders
+  State: authStore, cartStore
+  API Client: Axios
+
+        |
+        | HTTP JSON requests
+        v
+
+Express Backend (server)
+  Routes: auth, restaurants, cart, orders
+  Middleware: JWT protect, adminOnly, error handling
+  Models: User, Restaurant, MenuItem, Cart, Order
+
+        |
+        | Mongoose ODM
+        v
+
+MongoDB Database
+  Collections: users, restaurants, menuitems, carts, orders</div>
+
+    <h3>Folder Structure</h3>
+    <div class="flow">food-delivery/
+  client/
+    src/
+      components/
+      pages/
+      store/
+      lib/
+  server/
+    src/
+      routes/
+      models/
+      middleware/
+      lib/
+      seed.js</div>
+
+    <h2>5. Main Database Models</h2>
+    <ul>
+      <li><strong>User:</strong> name, email, password, role, addresses.</li>
+      <li><strong>Restaurant:</strong> name, description, image, cuisines, rating, location, delivery fee.</li>
+      <li><strong>MenuItem:</strong> restaurant, name, description, price, category, veg/non-veg, availability.</li>
+      <li><strong>Cart:</strong> user, restaurant, menu items, quantities.</li>
+      <li><strong>Order:</strong> user, restaurant, items, delivery address, subtotal, delivery fee, total, COD status.</li>
+    </ul>
+
+    <h2>6. Current Limitations And Next Improvements</h2>
+    <ul>
+      <li>Payment gateway is intentionally not included yet.</li>
+      <li>Restaurant and menu image upload can later be added using Cloudinary.</li>
+      <li>Admin dashboard UI can be added on top of the existing admin APIs.</li>
+      <li>Live delivery tracking can be added later with order status updates or sockets.</li>
+      <li>Location search can later use real maps and geolocation APIs.</li>
+    </ul>
+  </body>
+</html>
